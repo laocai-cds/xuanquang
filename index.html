@@ -1368,7 +1368,7 @@ const nkey=x=>String(x||'').toLocaleLowerCase('vi').replace(/[^\p{L}\p{N}]+/gu,'
 let liveStale=false,liveUnits=[],viewKey=null,msnap={};try{msnap=JSON.parse(localStorage.getItem('xq_msnap')||'{}')||{}}catch(_){}
 const curKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
 const viewingPast=()=>!!(viewKey&&viewKey!==curKey()&&msnap[viewKey]);
-function applyView(){const src=(viewingPast()?msnap[viewKey].rows:liveUnits).filter(r=>v(r,'members')>0||v(r,'due')>0||v(r,'paidCount')>0||v(r,'paid')>0);
+function applyView(){const src=(viewingPast()?msnap[viewKey].rows:liveUnits).filter(r=>v(r,'members')>0||v(r,'due')>0||v(r,'paidCount')>0||v(r,'paid')>0||/(^|\s)Trường\s/i.test(String(nm(r))));
   units=[...src].sort((a,b)=>v(b,'progress')-v(a,'progress')||v(b,'paid')-v(a,'paid'));rankOf=new Map();units.forEach((r,i)=>rankOf.set(r,i+1));if(window.SITECFG)SITECFG.post()}
 function renderBanner(){let b=$('#viewBanner');if(!b){b=document.createElement('div');b.id='viewBanner';const o=$('#overview');o.insertBefore(b,o.firstChild)}
   if(!viewingPast()){b.style.display='none';return}
