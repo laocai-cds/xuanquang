@@ -3934,19 +3934,20 @@ html body .brand b{background:linear-gradient(180deg,#ffe066,#f7b500 52%,#d38a00
 </style>
 <style id="petalCss">/* Cánh hoa đào bay */
 .pt-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.pt{position:absolute;top:-8%;left:var(--x);width:calc(1.5cqw*var(--s));height:calc(1.05cqw*var(--s));border-radius:100% 0 100% 0/100% 0 100% 0;background:linear-gradient(135deg,#ffd3e0 0%,#ff8fb1 55%,#f0457e 100%);box-shadow:inset -.1cqw -.1cqw .3cqw rgba(190,20,80,.35);opacity:0;will-change:transform,opacity;animation:ptFall var(--t) var(--d) linear infinite}
+.pt{position:absolute;top:100%;left:var(--x);width:calc(1.5cqw*var(--s));height:calc(1.05cqw*var(--s));border-radius:100% 0 100% 0/100% 0 100% 0;background:linear-gradient(135deg,#ffd3e0 0%,#ff8fb1 55%,#f0457e 100%);box-shadow:inset -.1cqw -.1cqw .3cqw rgba(190,20,80,.35);opacity:0;will-change:transform,opacity;animation:ptFall calc(var(--t) + 6s) var(--d) linear infinite}
+.pt:nth-child(n+8){display:none}
 .pt:nth-child(3n){border-radius:100% 0 100% 30%/80% 0 100% 0;background:linear-gradient(135deg,#fff0f5,#ffb6cc 60%,#f26b97)}
 .pt:nth-child(4n){width:calc(1.1cqw*var(--s));height:calc(.8cqw*var(--s))}
 @keyframes ptFall{
  0%{opacity:0;transform:translate(0,0) rotate(0) rotateX(0)}
  8%{opacity:.95}
- 25%{transform:translate(4cqw,10cqw) rotate(calc(var(--r)*.2*1deg)) rotateX(60deg)}
- 50%{transform:translate(-2cqw,21cqw) rotate(calc(var(--r)*.45*1deg)) rotateX(-40deg)}
- 75%{transform:translate(5cqw,32cqw) rotate(calc(var(--r)*.75*1deg)) rotateX(70deg)}
+ 25%{transform:translate(4cqw,-10cqw) rotate(calc(var(--r)*.2*1deg)) rotateX(60deg)}
+ 50%{transform:translate(-2cqw,-21cqw) rotate(calc(var(--r)*.45*1deg)) rotateX(-40deg)}
+ 75%{transform:translate(5cqw,-32cqw) rotate(calc(var(--r)*.75*1deg)) rotateX(70deg)}
  92%{opacity:.9}
- 100%{opacity:0;transform:translate(1cqw,42cqw) rotate(calc(var(--r)*1deg)) rotateX(0)}
+ 100%{opacity:0;transform:translate(1cqw,-42cqw) rotate(calc(var(--r)*1deg)) rotateX(0)}
 }
-@media(max-width:760px){.pt:nth-child(n+9){display:none}}
+@media(max-width:760px){.pt:nth-child(n+5){display:none}}
 </style>
 </body>
 </html>
