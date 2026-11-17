@@ -3881,5 +3881,19 @@ html body .btn.solid:not(.bar .btn):not(.hero .btn) svg,html body .btn.primary:n
 <style id="btnOutline2Css">html body .un-empty button{background:#fff!important;color:var(--son)!important;border:1.5px solid var(--son)!important;box-shadow:none!important}
 html body .un-empty button:hover{background:rgba(184,8,12,.08)!important}
 </style>
+<style id="redFlatCss">/* Đỏ đều: bỏ vệt sáng/chuyển sắc, một màu đỏ duy nhất */
+:root{--red-flat:rgba(186,10,16,.94)}
+html body .bar,html body .hero .wrap>div:first-child{background:var(--red-flat)!important;background-image:none!important}
+html body .notice{background:var(--red-flat)!important}
+html body .notice .livepill{background:rgba(160,6,12,.98)!important}
+html body .foot .fcard{background:var(--red-flat)!important}
+@media(min-width:901px){
+  html body .bar .tab{background:rgba(255,255,255,.07)!important;border-color:rgba(246,207,99,.55)!important}
+  html body .bar .tab:hover{background:rgba(255,255,255,.14)!important;box-shadow:none!important}
+  html body .bar .tab[aria-current=page]{background:rgba(255,255,255,.14)!important;box-shadow:inset 0 0 0 1.5px rgba(255,226,140,.9)!important}
+  html body .bar{background-image:none!important}
+}
+html body .bar .btn{background:rgba(255,255,255,.1)!important}
+</style>
 </body>
 </html>
