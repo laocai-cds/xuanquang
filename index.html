@@ -4099,9 +4099,9 @@ html body #lnkOv .lnk-box h3{flex:none;margin:0!important;padding:14px 64px 0 26
 html body #lnkOv .lnk-box .lnk-sub{flex:none;margin:2px 0 10px!important;padding:0 64px 0 26px;font-size:12.5px!important;color:#4a6a55!important}
 html body #lnkOv .lnk-x{top:16px!important;right:18px!important;width:34px!important;height:34px!important;border:0!important;border-radius:50%!important;background:linear-gradient(135deg,#e0242c,#a5101a)!important;color:#fff!important;font-size:15px!important;box-shadow:0 4px 10px -3px rgba(165,16,26,.7);transition:transform .2s,filter .2s}
 html body #lnkOv .lnk-x:hover{transform:rotate(90deg) scale(1.08);filter:brightness(1.1)}
-html body #lnkOv .lnk-ban{flex:none;margin:0 26px 12px!important;height:clamp(80px,15vh,132px);border-radius:16px!important;border:2px solid #f6cf63;box-shadow:0 8px 22px -10px rgba(7,100,34,.7)!important;position:relative}
+html body #lnkOv .lnk-ban{flex:none;align-self:center;width:fit-content;max-width:calc(100% - 52px);margin:0 26px 12px!important;overflow:hidden;line-height:0;border-radius:16px!important;border:2px solid #f6cf63;box-shadow:0 8px 22px -10px rgba(7,100,34,.7)!important;position:relative}
 html body #lnkOv .lnk-ban::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(4,60,24,.35))}
-html body #lnkOv .lnk-ban img{width:100%!important;height:100%!important;object-fit:cover;object-position:50% 38%}
+html body #lnkOv .lnk-ban img{width:auto!important;height:auto!important;max-width:100%;max-height:clamp(84px,calc(100vh - 665px),210px);object-fit:contain;display:block}
 html body #lnkOv .lnk-grid{flex:1 1 auto;min-height:0;overflow:auto;padding:2px 26px 22px;grid-template-columns:repeat(auto-fill,minmax(252px,1fr))!important;gap:10px!important;align-content:start;grid-auto-rows:max-content}
 html body #lnkOv .lnk-card{--c1:#22b45a;--c2:#078a2c;--tn:#eefaf1;--bd:#bfe8cb;--tx:#0b5d22;position:relative;display:flex;align-items:center;gap:11px!important;padding:9px 36px 9px 10px!important;border:1px solid var(--bd)!important;border-left:1px solid var(--bd)!important;border-radius:14px!important;background:linear-gradient(135deg,#fff 40%,var(--tn) 100%)!important;color:var(--tx)!important;box-shadow:0 3px 10px -6px rgba(0,0,0,.35)!important;min-height:0;transition:transform .18s,box-shadow .18s,border-color .18s;animation:lnkIn .35s both}
 html body #lnkOv .lnk-card:nth-child(5n+2){--c1:#4aa3ff;--c2:#1b6fd1;--tn:#eaf4ff;--bd:#bcd9f7;--tx:#0d4a96}
@@ -4116,9 +4116,9 @@ html body #lnkOv .lnk-card small{font-size:11px!important;margin-top:1px;color:#
 html body #lnkOv .lnk-card::after{content:"↗";position:absolute;right:9px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:var(--tn);color:var(--c2);font:700 13px/22px var(--sans,sans-serif);text-align:center;opacity:.85;transition:.18s}
 html body #lnkOv .lnk-card:hover::after{background:var(--c2);color:#fff;opacity:1;transform:translate(1px,-1px)}
 html body #lnkOv .lnk-card>span{min-width:0}
-html body #lnkOv .lnk-card{min-height:56px;box-sizing:border-box}
+html body #lnkOv .lnk-card{min-height:54px;box-sizing:border-box;padding-top:7px!important;padding-bottom:7px!important}
 @keyframes lnkIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@media(max-width:1023px){html body #lnkOv{padding:0!important}html body #lnkOv .lnk-box{border-radius:0!important;max-height:100vh!important;height:100%}html body #lnkOv .lnk-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;padding:2px 14px 18px}html body #lnkOv .lnk-box h3{padding-left:16px;font-size:18px!important}html body #lnkOv .lnk-box .lnk-sub{padding-left:16px}html body #lnkOv .lnk-ban{margin:0 14px 10px!important;height:84px}}
+@media(max-width:1023px){html body #lnkOv{padding:0!important}html body #lnkOv .lnk-box{border-radius:0!important;max-height:100vh!important;height:100%}html body #lnkOv .lnk-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;padding:2px 14px 18px}html body #lnkOv .lnk-box h3{padding-left:16px;font-size:18px!important}html body #lnkOv .lnk-box .lnk-sub{padding-left:16px}html body #lnkOv .lnk-ban{margin:0 14px 10px!important;height:auto;max-width:calc(100% - 28px)}html body #lnkOv .lnk-ban img{width:100%!important;height:auto!important}}
 </style>
 </body>
 </html>
