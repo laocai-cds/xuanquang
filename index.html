@@ -1326,7 +1326,7 @@ window.AUTH=(function(){
 })();
 </script>
 <script>
-const MAX_UNITS=33;/* mọi tháng chỉ lấy đơn vị số 1–33 */
+const MAX_UNITS=120;/* tối đa 120 đơn vị mỗi tháng */
 const INITIAL_UNITS=[];// Danh sách đơn vị trực thuộc Đảng bộ xã Xuân Quang được đọc từ Google Sheet (chưa có số liệu dự phòng)
 const KEYS={stt:'STT',name:'Tên đơn vị',members:'Tổng sl đảng viên (1)',pending:'Chưa duyệt (6)',paidCount:'Đã duyệt, đã nộp (8)',unfiled:'Số đảng viên chưa có hồ sơ (9)',declared:'Tổng tiền theo hồ sơ đã khai báo',paid:'Tổng tiền đã nộp',progress:'Tỷ lệ hoàn thành\n đảng phí thực tế',exempt:'Số lượng được miễn giảm ĐP (5)',moved:'Số lượng ĐV đã chuyển sinh hoạt đảng tạm thời (4)',approved:'Đã duyệt, chưa nộp (7)'};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
