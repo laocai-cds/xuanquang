@@ -1370,19 +1370,15 @@ const curKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMont
 const viewingPast=()=>!!(viewKey&&viewKey!==curKey()&&msnap[viewKey]);
 var kidsMap=new Map(),openKids=new Set();
 const kfold=t=>String(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/gi,'d').toLowerCase().replace(/\s+/g,' ').trim();
-function schoolParent(n){const f=kfold(n);if(!/^chi bo truong /.test(f))return null;
- if(/mam non/.test(f))return kfold('Đảng bộ Trường Mầm non Xuân Quang');
- if(/thcs|trung hoc co so/.test(f))return kfold('Đảng bộ Trường Trung học cơ sở Xuân Quang');
- if(/tieu hoc so 1|tri quang/.test(f))return kfold('Đảng bộ Trường Tiểu học số 1 Xuân Quang');
- if(/tieu hoc so (2|3)/.test(f))return kfold('Đảng bộ Trường Tiểu học số 2 Xuân Quang');
- return null}
+function schoolParent(n){const t=String(n),k=t.indexOf(' › ');return k>0?kfold(t.slice(0,k)):null}
+const kidName=n=>{const t=String(n),k=t.indexOf(' › ');return k>0?t.slice(k+3):t};
 function kidsOf(r){return kidsMap.get(kfold(nm(r)))||[]}
 function kidRows(r,t2){const K=kidsOf(r);if(!K.length||!openKids.has(kfold(nm(r))))return '';
  return K.map(k=>{const bar=`<div class="pbar"><div class="track"><i class="${cls(k)}" data-w="${Math.min(100,v(k,'progress')*100)}%"></i></div><b>${pct(v(k,'progress'))}</b></div>`;
-  return t2?`<tr class="row kid"><td class="hint"></td><td></td><td class="uname kidn">└ ${esc(nm(k))}</td><td class="n">${v(k,'members')}</td><td class="n zero">0</td><td class="n pc"><b>${v(k,'paidCount')}</b></td><td class="n mny"><b>${money(v(k,'paid'))}</b></td><td>${bar}</td></tr>`
-  :`<tr class="row kid"><td></td><td class="uname kidn">└ ${esc(nm(k))}</td><td class="n pc"><b>${v(k,'paidCount')}</b>/${v(k,'due')}</td><td class="n zero">0</td><td class="n zero">0</td><td class="n">${money(v(k,'declared'))}</td><td class="n mny"><b>${money(v(k,'paid'))}</b></td><td>${bar}</td><td><span class="pill empty">Chưa có đảng viên</span></td></tr>`}).join('')}
+  return t2?`<tr class="row kid"><td class="hint"></td><td></td><td class="uname kidn">└ ${esc(kidName(nm(k)))}</td><td class="n">${v(k,'members')}</td><td class="n zero">0</td><td class="n pc"><b>${v(k,'paidCount')}</b></td><td class="n mny"><b>${money(v(k,'paid'))}</b></td><td>${bar}</td></tr>`
+  :`<tr class="row kid"><td></td><td class="uname kidn">└ ${esc(kidName(nm(k)))}</td><td class="n pc"><b>${v(k,'paidCount')}</b>/${v(k,'due')}</td><td class="n zero">0</td><td class="n zero">0</td><td class="n">${money(v(k,'declared'))}</td><td class="n mny"><b>${money(v(k,'paid'))}</b></td><td>${bar}</td><td><span class="pill empty">Chưa có đảng viên</span></td></tr>`}).join('')}
 function kidTg(r){const n=kidsOf(r).length;if(!n)return '';const o=openKids.has(kfold(nm(r)));return ` <button type="button" class="kid-tg" data-kid="${esc(kfold(nm(r)))}" aria-expanded="${o}">${o?'▾':'▸'} ${n} chi bộ</button>`}
-function applyView(){const src=(viewingPast()?msnap[viewKey].rows:liveUnits).filter(r=>v(r,'members')>0||v(r,'due')>0||v(r,'paidCount')>0||v(r,'paid')>0||/(^|\s)Trường\s/i.test(String(nm(r))));
+function applyView(){const src=(viewingPast()?msnap[viewKey].rows:liveUnits).filter(r=>v(r,'members')>0||v(r,'due')>0||v(r,'paidCount')>0||v(r,'paid')>0);
   kidsMap=new Map();const top=[];src.forEach(r=>{const p=schoolParent(nm(r));if(p){if(!kidsMap.has(p))kidsMap.set(p,[]);kidsMap.get(p).push(r)}else top.push(r)});
   units=[...top].sort((a,b)=>v(b,'progress')-v(a,'progress')||v(b,'paid')-v(a,'paid'));rankOf=new Map();units.forEach((r,i)=>rankOf.set(r,i+1));if(window.SITECFG)SITECFG.post()}
 function renderBanner(){let b=$('#viewBanner');if(!b){b=document.createElement('div');b.id='viewBanner';const o=$('#overview');o.insertBefore(b,o.firstChild)}
