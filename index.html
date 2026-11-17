@@ -4120,5 +4120,14 @@ html body #lnkOv .lnk-card{min-height:54px;box-sizing:border-box;padding-top:7px
 @keyframes lnkIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(max-width:1023px){html body #lnkOv{padding:0!important}html body #lnkOv .lnk-box{border-radius:0!important;max-height:100vh!important;height:100%}html body #lnkOv .lnk-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;padding:2px 14px 18px}html body #lnkOv .lnk-box h3{padding-left:16px;font-size:18px!important}html body #lnkOv .lnk-box .lnk-sub{padding-left:16px}html body #lnkOv .lnk-ban{margin:0 14px 10px!important;height:auto;max-width:calc(100% - 28px)}html body #lnkOv .lnk-ban img{width:100%!important;height:auto!important}}
 </style>
+<style id="sloganShine">
+/* Vệt sáng chạy dưới khẩu hiệu "Vùng đất hoa xuân" (chữ nằm trong ảnh banner 1774x560: x 14%→54%, y ≈ 71%) */
+html body .scenic{position:relative}
+html body .scenic::before{content:"";position:absolute;z-index:2;pointer-events:none;left:14%;width:40.2%;top:71.6%;height:clamp(2px,.3cqw,5px);border-radius:99px;
+ background:linear-gradient(90deg,transparent 0 40%,rgba(255,200,40,.0) 41%,#ffc928 46.5%,#fffbe0 50%,#ffc928 53.5%,rgba(255,200,40,0) 59%,transparent 60% 100%) 100% 0/260% 100% no-repeat,
+  linear-gradient(90deg,transparent 0%,rgba(212,160,23,.75) 14%,rgba(196,20,28,.8) 50%,rgba(212,160,23,.75) 86%,transparent 100%);
+ filter:drop-shadow(0 0 3px rgba(255,170,0,.85));animation:sloganShine 3.6s linear infinite}
+@keyframes sloganShine{0%{background-position:100% 0,0 0}100%{background-position:0 0,0 0}}
+</style>
 </body>
 </html>
