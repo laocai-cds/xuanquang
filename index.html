@@ -1490,7 +1490,7 @@ function pushMonthly(ep,k){
   const stamp='Lúc '+new Date().toLocaleString('vi-VN',{hour12:false});
   post({tab:MONTH_TAB,headers:['Tháng','Đã nộp trong kỳ (₫)','Ghi nhận'],rows:Object.keys(monthly).sort().map(k=>[k,monthly[k].cum,stamp]),token:tk,source:'website-monthly'})}
 const sigOf=rows=>rows.map(r=>[v(r,'members'),v(r,'paidCount'),v(r,'paid')].join(',')).join(';');
-async function loadMonthTab(k){const ep=sheetEndpoint();if(!ep||msnap[k])return !!msnap[k];
+async function loadMonthTab(k,force){const ep=sheetEndpoint();if(!ep||(msnap[k]&&!force))return !!msnap[k];
   try{const d=await jsonp(ep+'?action=read&tab='+encodeURIComponent(monthTab(k)),9000);
     if(d&&d.ok&&Array.isArray(d.headers)&&Array.isArray(d.rows)){const M=matchUnits(d.headers,d.rows);
       if(M&&(k===curKey()||sigOf(M.next)!==sigOf(liveUnits))){msnap[k]={t:d.lastSync?new Date(d.lastSync).getTime()||Date.now():Date.now(),rows:M.next};
@@ -1619,8 +1619,10 @@ async function provLoad(){
   PROV.busy=0;provShow()}
 /* so sánh số thu với tháng trước (T-1 của tháng đang xem) */
 function prevCmp(cur){const vk=viewKey||curKey(),y=+vk.slice(0,4),m=+vk.slice(5),pd=new Date(y,m-2,1),pk=pd.getFullYear()+'-'+String(pd.getMonth()+1).padStart(2,'0');
+  if(!window.__pcTry)window.__pcTry={};
+  if(!window.__pcTry[pk]){window.__pcTry[pk]=1;loadMonthTab(pk,true).then(ok=>{if(ok)try{render()}catch(_){}})}
   const p=monthly[pk];
-  if(!p||!(p.cum>0)){if(!window.__pcTry)window.__pcTry={};if(!window.__pcTry[pk]){window.__pcTry[pk]=1;loadMonthTab(pk).then(ok=>{if(ok)try{render()}catch(_){}})}return null}
+  if(!p||!(p.cum>0))return null;
   const d=(cur-p.cum)/p.cum*100,up=d>=0;
   return{pm:pd.getMonth()+1,pv:p.cum,d,up,txt:(up?'▲ +':'▼ ')+Math.abs(d).toFixed(1).replace('.',',')+'%'}}
 function render(){
@@ -1628,7 +1630,7 @@ function render(){
   const pc=prevCmp(t.paid);
   const active=units.filter(r=>v(r,'members')>0),done=units.filter(r=>cls(r)==='complete').length;
 
-  $('#heroline').innerHTML=`<div><b>${money(t.paid)}${pc?`<span class="vsb ${pc.up?'up':'dn'}" title="So với tháng ${pc.pm}: ${money(pc.pv)}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${pc.up?'<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>':'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>'}</svg>${Math.abs(pc.d).toFixed(1).replace('.',',')}%</span>`:''}</b><small>Đã thu${pc?` · so với T${pc.pm}: ${mshort(pc.pv)}`:''}</small></div><div><b>${t.paidCount}/${t.due}</b><small>Đảng viên đã nộp</small></div><div class="hl-rank"><b>${done}/${units.length}</b><small>Đơn vị hoàn thành</small><button type="button" class="kp-more" data-rank-open title="Xem bảng xếp hạng đơn vị">Xếp hạng<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button></div><div><b>${dataSrc==='loading'?'…':(dataStamp||'—')}</b><small>${dataSrc==='sheet'?'Google Sheet cập nhật':'Dữ liệu cập nhật'}</small></div>`;
+  $('#heroline').innerHTML=`<div><b>${money(t.paid)}${pc?`<span class="vsb ${pc.up?'up':'dn'}" role="button" tabindex="0" data-go-month title="So với tháng ${pc.pm}: ${money(pc.pv)} · bấm để xem mục Thu theo tháng"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${pc.up?'<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>':'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>'}</svg>${Math.abs(pc.d).toFixed(1).replace('.',',')}%</span>`:''}</b><small>Đã thu${pc?` · so với T${pc.pm}: ${mshort(pc.pv)}`:''}</small></div><div><b>${t.paidCount}/${t.due}</b><small>Đảng viên đã nộp</small></div><div class="hl-rank"><b>${done}/${units.length}</b><small>Đơn vị hoàn thành</small><button type="button" class="kp-more" data-rank-open title="Xem bảng xếp hạng đơn vị">Xếp hạng<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button></div><div><b>${dataSrc==='loading'?'…':(dataStamp||'—')}</b><small>${dataSrc==='sheet'?'Google Sheet cập nhật':'Dữ liệu cập nhật'}</small></div>`;
   {const hd=$('#heroDate');if(hd){const d=new Date();hd.textContent='Ngày '+d.getDate()+' tháng '+(d.getMonth()+1)+' năm '+d.getFullYear()}}
   renderDonut(t,rate,active);renderMonthly();renderBanner();
 
@@ -4143,5 +4145,14 @@ html body .vsb.up{background:#dcfce7;color:#15803d}
 html body .vsb.dn{background:#ffe4e6;color:#be123c}
 @keyframes vsbPop{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 @media(prefers-reduced-motion:reduce){html body .vsb{animation:none}}</style>
+<style id="vsGo">html body .vsb{cursor:pointer;transition:transform .15s,box-shadow .15s}html body .vsb:hover{transform:translateY(-2px) scale(1.06);box-shadow:0 4px 12px rgba(0,0,0,.28)}html body .vsb:focus-visible{outline:2px solid #fde68a;outline-offset:2px}@keyframes vsFlash{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,0)}30%{box-shadow:0 0 0 6px rgba(251,191,36,.7)}}html body #tabMonth.vsFlash{animation:vsFlash 1.1s ease 2;border-radius:14px}</style>
+<script>
+/* bấm huy hiệu so với tháng trước → mở mục "Thu theo tháng" */
+(function(){function go(e){var b=e.target.closest&&e.target.closest('[data-go-month]');if(!b)return;if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return;e.preventDefault();
+ var p=document.getElementById('tabMonth');if(!p)return;var t=p.querySelector('.tsTabs [data-p="a"]');if(t&&!t.classList.contains('on'))t.click();
+ p.scrollIntoView({behavior:'smooth',block:'start'});p.classList.add('vsFlash');setTimeout(function(){p.classList.remove('vsFlash')},2200)}
+ document.addEventListener('click',go);document.addEventListener('keydown',go)})();
+</script>
+<style id="vsFlat">html body .vsb,html body .vsb.up,html body .vsb.dn{background:none!important;box-shadow:none!important;padding:0 0 0 2px!important;border-radius:0!important;animation:none!important}html body .vsb.up{color:#86efac!important}html body .vsb.dn{color:#fda4af!important;text-shadow:0 1px 2px rgba(80,0,20,.55)}html body .vsb.up{text-shadow:0 1px 2px rgba(0,60,20,.55)}html body .vsb:hover{box-shadow:none!important;filter:brightness(1.15)}</style>
 </body>
 </html>
