@@ -1785,6 +1785,8 @@ $('#ttRemind').onclick=openRemindAll;
 const cbSlug=r=>nm(r).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/gi,'d').toLowerCase().replace(/^(chi bo|dang bo)\s+/,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 let cbOpen=null;
 function cbUrl(slug){return location.origin+location.pathname+'#cb='+slug}
+function cbKids(r){const K=kidsOf(r);if(!K.length)return '';
+  return `<p class="cbm-msgh">Các chi bộ trực thuộc (${K.length})</p><div class="cbm-kids">`+K.map(k=>{const p=Math.max(0,Math.min(1,v(k,'progress')));return `<div class="cbm-kid"><b>${esc(kidName(nm(k)))}</b><span><i style="width:${(p*100).toFixed(1)}%"></i></span><em>${pct(p)}</em><small>${num(v(k,'paidCount'))}/${num(v(k,'due'))} đảng viên · ${money(v(k,'paid'))}${v(k,'declared')>v(k,'paid')?' / kê khai '+money(v(k,'declared')):''}</small></div>`}).join('')+`</div>`}
 function openCb(slug,refresh){
   const r=units.find(x=>cbSlug(x)===slug);if(!r){if(!refresh)toast('Không tìm thấy đơn vị trong link.');return}
   cbOpen=slug;let bk=$('#cbModal');
@@ -1796,7 +1798,7 @@ function openCb(slug,refresh){
   <p class="cbm-rank">Xếp hạng <b>${rk}/${units.length}</b> đơn vị · <b>${num(v(r,'paidCount'))}/${num(v(r,'due'))}</b> đảng viên đã nộp</p>
   <div class="track"><i class="${cls(r)}" style="width:${(p*100).toFixed(1)}%"></i></div>
   <div class="cbm-grid"><div class="${v(r,'noRecord')?'warn':''}"><small>Chưa có hồ sơ</small><b>${num(v(r,'noRecord'))}</b></div><div class="${v(r,'pending')?'warn':''}"><small>Chưa được duyệt</small><b>${num(v(r,'pending'))}</b></div><div class="${v(r,'approved')?'warn':''}"><small>Đã duyệt, chưa nộp</small><b>${num(v(r,'approved'))}</b></div><div><small>Đã nộp</small><b>${money(v(r,'paid'))}</b></div><div><small>Kê khai</small><b>${money(v(r,'declared'))}</b></div><div class="${left?'warn':''}"><small>Còn phải thu</small><b>${money(left)}</b></div></div>
-  <p class="cbm-msgh">Tin nhắn đôn đốc (soạn sẵn, sửa được trước khi gửi)</p><textarea class="input cbm-msg" id="cbMsg" rows="5">${esc(unitMsg(r))}</textarea>
+  ${cbKids(r)}<p class="cbm-msgh">Tin nhắn đôn đốc (soạn sẵn, sửa được trước khi gửi)</p><textarea class="input cbm-msg" id="cbMsg" rows="5">${esc(unitMsg(r))}</textarea>
   <div class="cbm-acts">${IS_PHONE?'<button class="btn solid" type="button" id="cbSms">Nhắn SMS</button>':''}<button class="btn ${IS_PHONE?'':'solid'}" type="button" id="cbZalo">${navigator.share?'Gửi Zalo / khác':'Sao chép tin nhắn'}</button><button class="btn" type="button" data-cbclose>Xem toàn Đảng bộ</button></div></div></div>`;
   const msg=()=>$('#cbMsg').value;
   if($('#cbSms'))$('#cbSms').onclick=()=>sendSms(msg());
@@ -4006,5 +4008,6 @@ html body .hero .wrap>div:first-child .eyebrow,html body .hero .wrap>div:first-c
 </style>
 <style id="kidCss">html body .kid-tg{margin-left:8px;padding:2px 9px;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--son,#078a2c);font:600 .72rem/1.4 inherit;cursor:pointer;white-space:nowrap}html body .kid-tg:hover{background:rgba(7,138,44,.1)}html body tr.kid td{background:rgba(7,138,44,.05)}html body tr.kid .kidn{padding-left:34px;font-weight:500;opacity:.9}html body .rk-tg{margin-left:8px;padding:1px 8px;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--son,#078a2c);font:600 .7rem/1.4 inherit;cursor:pointer;white-space:nowrap}html body .rkm-row.kid{padding-left:34px;background:rgba(7,138,44,.05)}</style>
 <script>(function(){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.kid-tg');if(!b)return;e.stopPropagation();e.preventDefault();var k=b.getAttribute('data-kid');if(openKids.has(k))openKids.delete(k);else openKids.add(k);fillTables()},true)})()</script>
+<style id="cbKidsCss">html body .cbm-kids{display:grid;gap:6px;margin:4px 0 10px}html body .cbm-kid{display:grid;grid-template-columns:1fr 70px 52px;gap:2px 8px;align-items:center;padding:6px 9px;border-radius:8px;background:rgba(7,138,44,.07)}html body .cbm-kid b{font-size:.82rem;font-weight:600;grid-column:1}html body .cbm-kid span{height:6px;border-radius:99px;background:rgba(0,0,0,.1);overflow:hidden}html body .cbm-kid span i{display:block;height:100%;background:var(--son,#078a2c)}html body .cbm-kid em{font-style:normal;font-weight:700;font-size:.78rem;text-align:right}html body .cbm-kid small{grid-column:1/-1;opacity:.75;font-size:.72rem}</style>
 </body>
 </html>
