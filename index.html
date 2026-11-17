@@ -4090,5 +4090,35 @@ document.addEventListener('keydown',e=>{if(!M.classList.contains('on'))return;
  if(e.key==='Escape')close();else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowRight')show(cur+1);});
 })();</script>
 
+<style id="lnkRedesign">
+/* Liên kết website: thiết kế lại, màu sắc tươi, vừa trọn khung hình */
+html body #lnkOv{background:radial-gradient(120% 120% at 50% 0%,rgba(7,100,34,.82),rgba(4,36,18,.92))!important;backdrop-filter:blur(6px)!important;padding:14px!important}
+html body #lnkOv .lnk-box{position:relative;display:flex!important;flex-direction:column;width:min(1160px,100%)!important;max-height:calc(100vh - 28px)!important;overflow:hidden!important;padding:0!important;border-radius:22px!important;background:linear-gradient(180deg,#fffdf3 0%,#f1faf1 100%)!important;box-shadow:0 30px 80px -18px rgba(0,0,0,.65),0 0 0 2px rgba(246,207,99,.85)!important}
+html body #lnkOv .lnk-box::before{content:"";flex:none;height:7px;background:linear-gradient(90deg,#d6242c 0%,#f6cf63 33%,#078a2c 66%,#1b6fd1 100%)}
+html body #lnkOv .lnk-box h3{flex:none;margin:0!important;padding:14px 64px 0 26px;font:800 22px/1.25 var(--serif,serif)!important;background:linear-gradient(90deg,#a5101a,#078a2c 60%,#0b5d22);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+html body #lnkOv .lnk-box .lnk-sub{flex:none;margin:2px 0 10px!important;padding:0 64px 0 26px;font-size:12.5px!important;color:#4a6a55!important}
+html body #lnkOv .lnk-x{top:16px!important;right:18px!important;width:34px!important;height:34px!important;border:0!important;border-radius:50%!important;background:linear-gradient(135deg,#e0242c,#a5101a)!important;color:#fff!important;font-size:15px!important;box-shadow:0 4px 10px -3px rgba(165,16,26,.7);transition:transform .2s,filter .2s}
+html body #lnkOv .lnk-x:hover{transform:rotate(90deg) scale(1.08);filter:brightness(1.1)}
+html body #lnkOv .lnk-ban{flex:none;margin:0 26px 12px!important;height:clamp(80px,15vh,132px);border-radius:16px!important;border:2px solid #f6cf63;box-shadow:0 8px 22px -10px rgba(7,100,34,.7)!important;position:relative}
+html body #lnkOv .lnk-ban::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(4,60,24,.35))}
+html body #lnkOv .lnk-ban img{width:100%!important;height:100%!important;object-fit:cover;object-position:50% 38%}
+html body #lnkOv .lnk-grid{flex:1 1 auto;min-height:0;overflow:auto;padding:2px 26px 22px;grid-template-columns:repeat(auto-fill,minmax(252px,1fr))!important;gap:10px!important;align-content:start;grid-auto-rows:max-content}
+html body #lnkOv .lnk-card{--c1:#22b45a;--c2:#078a2c;--tn:#eefaf1;--bd:#bfe8cb;--tx:#0b5d22;position:relative;display:flex;align-items:center;gap:11px!important;padding:9px 36px 9px 10px!important;border:1px solid var(--bd)!important;border-left:1px solid var(--bd)!important;border-radius:14px!important;background:linear-gradient(135deg,#fff 40%,var(--tn) 100%)!important;color:var(--tx)!important;box-shadow:0 3px 10px -6px rgba(0,0,0,.35)!important;min-height:0;transition:transform .18s,box-shadow .18s,border-color .18s;animation:lnkIn .35s both}
+html body #lnkOv .lnk-card:nth-child(5n+2){--c1:#4aa3ff;--c2:#1b6fd1;--tn:#eaf4ff;--bd:#bcd9f7;--tx:#0d4a96}
+html body #lnkOv .lnk-card:nth-child(5n+3){--c1:#ff6b6b;--c2:#d6242c;--tn:#fff0f0;--bd:#f6c3c3;--tx:#a5101a}
+html body #lnkOv .lnk-card:nth-child(5n+4){--c1:#ffc04a;--c2:#e08a00;--tn:#fff6e2;--bd:#f5deaa;--tx:#8a5300}
+html body #lnkOv .lnk-card:nth-child(5n+5){--c1:#36c9d6;--c2:#0e8f9c;--tn:#e9fafc;--bd:#b5e6ec;--tx:#076671}
+html body #lnkOv .lnk-card:first-child{--c1:#ff6b6b;--c2:#c4141c;--tn:#fff2c9;--bd:#f2c94c;--tx:#8a1119;background:linear-gradient(135deg,#fffbe8 0%,#ffe9a6 100%)!important;box-shadow:0 6px 16px -8px rgba(224,138,0,.8)!important}
+html body #lnkOv .lnk-card:hover{transform:translateY(-3px);border-color:var(--c2)!important;box-shadow:0 14px 24px -12px var(--c2)!important;background:linear-gradient(135deg,#fff 10%,var(--tn) 100%)!important}
+html body #lnkOv .lnk-card i{flex:none;width:38px!important;height:38px!important;border-radius:50%!important;background:linear-gradient(135deg,var(--c1),var(--c2))!important;color:#fff!important;font:800 15px var(--serif,serif)!important;box-shadow:0 0 0 3px #fff,0 0 0 4px var(--bd)!important;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+html body #lnkOv .lnk-card b{font-size:13.5px!important;line-height:1.25;font-weight:800!important;color:var(--tx)!important}
+html body #lnkOv .lnk-card small{font-size:11px!important;margin-top:1px;color:#5d7389!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+html body #lnkOv .lnk-card::after{content:"↗";position:absolute;right:9px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:var(--tn);color:var(--c2);font:700 13px/22px var(--sans,sans-serif);text-align:center;opacity:.85;transition:.18s}
+html body #lnkOv .lnk-card:hover::after{background:var(--c2);color:#fff;opacity:1;transform:translate(1px,-1px)}
+html body #lnkOv .lnk-card>span{min-width:0}
+html body #lnkOv .lnk-card{min-height:56px;box-sizing:border-box}
+@keyframes lnkIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:1023px){html body #lnkOv{padding:0!important}html body #lnkOv .lnk-box{border-radius:0!important;max-height:100vh!important;height:100%}html body #lnkOv .lnk-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important;padding:2px 14px 18px}html body #lnkOv .lnk-box h3{padding-left:16px;font-size:18px!important}html body #lnkOv .lnk-box .lnk-sub{padding-left:16px}html body #lnkOv .lnk-ban{margin:0 14px 10px!important;height:84px}}
+</style>
 </body>
 </html>
