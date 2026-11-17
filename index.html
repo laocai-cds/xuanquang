@@ -1370,7 +1370,13 @@ const curKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMont
 const viewingPast=()=>!!(viewKey&&viewKey!==curKey()&&msnap[viewKey]);
 var kidsMap=new Map(),openKids=new Set();
 const kfold=t=>String(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/gi,'d').toLowerCase().replace(/\s+/g,' ').trim();
-function schoolParent(n){const t=String(n),k=t.indexOf(' › ');return k>0?kfold(t.slice(0,k)):null}
+function schoolParent(n){const t=String(n),k=t.indexOf(' › ');if(k>0)return kfold(t.slice(0,k));
+ const f=kfold(t);if(!/^chi bo /.test(f))return null;
+ if(/^chi bo (hoa hong|hoa mai|nang mai|sao mai)$/.test(f))return kfold('Đảng bộ Trường Mầm non Xuân Quang');
+ if(/truong tieu hoc so 1$/.test(f))return kfold('Đảng bộ Trường Tiểu học số 1 Xuân Quang');
+ if(/truong tieu hoc so 2$/.test(f))return kfold('Đảng bộ Trường Tiểu học số 2 Xuân Quang');
+ if(/truong trung hoc co so$/.test(f))return kfold('Đảng bộ Trường Trung học cơ sở Xuân Quang');
+ return null}
 const kidName=n=>{const t=String(n),k=t.indexOf(' › ');return k>0?t.slice(k+3):t};
 function kidsOf(r){return kidsMap.get(kfold(nm(r)))||[]}
 function kidRows(r,t2){const K=kidsOf(r);if(!K.length||!openKids.has(kfold(nm(r))))return '';
