@@ -4013,5 +4013,82 @@ html body .hero .wrap>div:first-child .eyebrow,html body .hero .wrap>div:first-c
 <style id="goldDeep2">/* Đảng bộ xã Xuân Quang: vàng đậm */
 html body .brand b,html body .hero .wrap>div:first-child .lede-name,html body .hero .wrap>div:first-child strong,html body .hero .wrap>div:first-child p>b{background:linear-gradient(180deg,#ffd426 0%,#f2a900 50%,#c47f00 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;color:transparent!important;font-weight:800!important;filter:drop-shadow(0 1px 1.5px rgba(0,40,10,.85))!important;text-shadow:none!important}
 </style>
+<div class="back" id="qsModal" role="dialog" aria-modal="true" aria-labelledby="qsTitle">
+  <div class="modal qsm">
+    <div class="qsm-head"><span class="qsm-ic" id="qsIc"></span><div><small id="qsKick"></small><h3 id="qsTitle"></h3></div><button type="button" class="qsm-x" data-qs-close aria-label="Đóng">×</button></div>
+    <p class="qsm-lede" id="qsLede"></p>
+    <ul class="qsm-list" id="qsList"></ul>
+    <div class="qsm-foot"><span id="qsMotto"></span><a id="qsLink" href="https://xuanquang.laocai.gov.vn/" target="_blank" rel="noopener">Cổng thông tin xã Xuân Quang ↗</a></div>
+    <div class="qsm-nav"><button type="button" data-qs-prev>‹ Trước</button><span id="qsDots"></span><button type="button" data-qs-next>Tiếp ›</button></div>
+  </div>
+</div>
+<style id="qsModalCss">/* Popup 4 nút trên banner: Chính quyền thân thiện / Dịch vụ hiện đại / Kết nối phát triển / Nông thôn mới */
+.qs-i{cursor:pointer}
+.modal.qsm{width:min(560px,100%);padding:0;border-top:4px solid #1f5a33;overflow:hidden;animation:qsmIn .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes qsmIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.qsm-head{display:flex;align-items:center;gap:14px;padding:20px 22px 14px;background:linear-gradient(135deg,#eefaf0,#fff 70%)}
+.qsm-ic{flex:none;display:grid;place-items:center;width:54px;height:54px;border-radius:50%;color:#fff;background:linear-gradient(145deg,#2aa014,#067326);box-shadow:0 0 0 2px #e6b422,0 6px 16px -6px rgba(6,115,38,.6)}
+.qsm-ic svg{width:60%;height:60%}
+.qsm-head small{display:block;font:700 11px/1.4 var(--display);letter-spacing:.08em;text-transform:uppercase;color:#8a6a00}
+.qsm-head h3{margin:2px 0 0;font:800 20px/1.25 var(--display);color:#1f5a33}
+.qsm-x{margin-left:auto;flex:none;align-self:flex-start;width:34px;height:34px;border-radius:50%;border:1px solid var(--rule);background:#fff;font-size:20px;line-height:1;color:var(--muted);cursor:pointer}
+.qsm-x:hover{background:#eefaf0;color:#1f5a33;border-color:#abe3ad}
+.qsm-lede{margin:0;padding:4px 22px 6px;font-size:14.5px;line-height:1.6;color:var(--ink)}
+.qsm-list{list-style:none;margin:0;padding:6px 22px 8px;display:grid;gap:8px}
+.qsm-list li{position:relative;padding:9px 12px 9px 38px;border-radius:12px;background:#f6fbf6;border:1px solid #dcefdc;font-size:14px;line-height:1.5;color:var(--ink)}
+.qsm-list li::before{content:"";position:absolute;left:12px;top:12px;width:16px;height:16px;border-radius:50%;background:#2aa014 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.2 8.3l2.5 2.5 5-5.2' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.qsm-list li b{color:#1f5a33}
+.qsm-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 14px;padding:6px 22px 10px;font-size:12.5px;color:var(--muted)}
+.qsm-foot #qsMotto{font-style:italic;color:#8a6a00;font-weight:600}
+.qsm-foot a{color:#1f5a33;font-weight:700;text-decoration:none}.qsm-foot a:hover{text-decoration:underline}
+.qsm-nav{display:flex;align-items:center;justify-content:space-between;padding:10px 22px 16px;border-top:1px solid var(--rule)}
+.qsm-nav button{border:1px solid #abe3ad;background:#fff;color:#1f5a33;border-radius:999px;padding:6px 14px;font:700 13px var(--display);cursor:pointer}
+.qsm-nav button:hover{background:#eefaf0}
+#qsDots{display:flex;gap:7px}#qsDots i{width:8px;height:8px;border-radius:50%;background:#cfe6cf;cursor:pointer;transition:.2s}#qsDots i.on{background:#067326;width:22px;border-radius:6px}
+@media(max-width:520px){.qsm-head h3{font-size:17px}.qsm-ic{width:46px;height:46px}}
+@media(prefers-reduced-motion:reduce){.modal.qsm{animation:none}}
+</style>
+<script>(()=>{
+const M=document.getElementById('qsModal');if(!M)return;
+const IC={
+ a:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 40S8 30.5 8 19.5A8.5 8.5 0 0 1 24 15a8.5 8.5 0 0 1 16 4.5C40 30.5 24 40 24 40z"/></svg>',
+ b:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="13" y="6" width="22" height="36" rx="4"/><path d="M21 36h6M18 14h12M18 20h12M18 26h7"/></svg>',
+ c:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38h32M12 38V26M22 38V18M32 38V10"/><path d="M10 20l11-8 8 6 10-10"/></svg>',
+ d:'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 40C10 22 22 10 40 8c0 18-12 30-30 32z"/><path d="M10 40C18 30 26 22 34 14"/></svg>'};
+const D=[
+{ic:'a',k:'Chính quyền thân thiện',t:'Chính quyền thân thiện',
+ lede:'Lấy người dân làm trung tâm phục vụ: cán bộ gần dân, lắng nghe dân và giải quyết công việc đúng hẹn.',
+ li:['<b>Gần dân, sát cơ sở:</b> cán bộ, đảng viên thường xuyên xuống thôn, bản nắm tình hình, nghe ý kiến nhân dân.','<b>Tiếp dân tận tình:</b> thái độ ân cần, giải thích rõ ràng, hướng dẫn đầy đủ khi người dân đến làm việc.','<b>Giải quyết đúng hẹn:</b> công khai thủ tục, thời hạn; không để hồ sơ tồn đọng, trễ hạn.','<b>Đảng viên nêu gương:</b> gương mẫu thực hiện nghĩa vụ, trong đó có nộp đảng phí đầy đủ, đúng hạn.'],
+ m:'Vì nhân dân phục vụ'},
+{ic:'b',k:'Dịch vụ hiện đại',t:'Dịch vụ hiện đại',
+ lede:'Đưa công nghệ số vào phục vụ: thủ tục thuận tiện, minh bạch, ít đi lại và tiết kiệm thời gian cho người dân.',
+ li:['<b>Dịch vụ công trực tuyến:</b> nộp và theo dõi hồ sơ trên Cổng dịch vụ công, hạn chế đi lại.','<b>Định danh điện tử:</b> sử dụng VNeID, tài khoản số trong giao dịch và thủ tục hành chính.','<b>Thanh toán không dùng tiền mặt:</b> nộp đảng phí và các khoản thu qua tài khoản ngân hàng, mã QR.','<b>Quản lý bằng dữ liệu:</b> hệ thống theo dõi thu nộp đảng phí cập nhật số liệu theo thời gian thực, công khai, dễ đối chiếu.'],
+ m:'Số hóa để phục vụ tốt hơn'},
+{ic:'c',k:'Kết nối phát triển',t:'Kết nối phát triển',
+ lede:'Kết nối giữa chính quyền, đảng bộ và nhân dân; giữa các thôn, bản; giữa xã với các địa phương và doanh nghiệp để cùng phát triển.',
+ li:['<b>Kết nối thông tin:</b> thông báo, tin tức, số liệu được chia sẻ nhanh qua website, Zalo và trợ lý AI.','<b>Kết nối hạ tầng:</b> giao thông, điện, viễn thông, internet đến từng thôn, bản.','<b>Kết nối thị trường:</b> gắn sản xuất của người dân với tiêu thụ, du lịch, thương mại.','<b>Kết nối các cấp:</b> liên kết với website của các đơn vị trong tỉnh để trao đổi kinh nghiệm hay.'],
+ m:'Cùng kết nối, cùng phát triển'},
+{ic:'d',k:'Nông thôn mới',t:'Nông thôn mới: Xanh – Hài hòa – Hạnh phúc',
+ lede:'Xây dựng nông thôn mới không chỉ đẹp về diện mạo mà còn giàu về đời sống, đậm đà bản sắc, bình yên và hạnh phúc.',
+ li:['<b>Xanh:</b> môi trường sạch đẹp, cảnh quan xanh, sản xuất an toàn, bảo vệ rừng và nguồn nước.','<b>Hài hòa:</b> phát triển kinh tế đi cùng giữ gìn văn hóa, đoàn kết giữa các thôn, bản và dân tộc.','<b>Hạnh phúc:</b> đời sống vật chất, tinh thần ngày càng nâng cao; người dân hài lòng, an tâm sinh sống.','<b>Đảng bộ vững mạnh:</b> chi bộ, đảng viên giữ vai trò hạt nhân, nêu gương trong xây dựng nông thôn mới.'],
+ m:'Xanh – Hài hòa – Hạnh phúc'}];
+const $=s=>M.querySelector(s);let cur=0,last=null;
+function show(i){cur=(i+D.length)%D.length;const d=D[cur];
+ $('#qsIc').innerHTML=IC[d.ic];$('#qsKick').textContent='Xã Xuân Quang · '+(cur+1)+'/'+D.length;$('#qsTitle').textContent=d.t;
+ $('#qsLede').textContent=d.lede;$('#qsList').innerHTML=d.li.map(x=>'<li>'+x+'</li>').join('');
+ $('#qsMotto').textContent='“'+d.m+'”';
+ $('#qsDots').innerHTML=D.map((_,j)=>'<i data-i="'+j+'" class="'+(j===cur?'on':'')+'"></i>').join('');}
+function open(i){last=document.activeElement;show(i);M.classList.add('on');document.documentElement.style.overflow='hidden';$('.qsm-x').focus();}
+function close(){M.classList.remove('on');document.documentElement.style.overflow='';if(last&&last.focus)last.focus();}
+document.querySelectorAll('.qs-i').forEach((b,i)=>{b.tabIndex=0;b.setAttribute('aria-haspopup','dialog');b.addEventListener('click',()=>open(i));});
+M.addEventListener('click',e=>{const t=e.target;
+ if(t===M||t.closest('[data-qs-close]'))return close();
+ if(t.closest('[data-qs-prev]'))return show(cur-1);
+ if(t.closest('[data-qs-next]'))return show(cur+1);
+ const dot=t.closest('#qsDots i');if(dot)show(+dot.dataset.i);});
+document.addEventListener('keydown',e=>{if(!M.classList.contains('on'))return;
+ if(e.key==='Escape')close();else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowRight')show(cur+1);});
+})();</script>
+
 </body>
 </html>
