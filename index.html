@@ -2930,7 +2930,7 @@ var API='https://script.google.com/macros/s/AKfycbzbbPi7NVH9Ks9zhiyMKAO7hJwUwQYm
 var FALLBACK=[['Đảng bộ xã Bảo Thắng','baothang'],['Đảng bộ xã Lương Thịnh','luongthinh'],['Đảng bộ xã Phình Hồ','phinhho'],['Đảng bộ xã Trạm Tấu','tramtau'],['Đảng bộ xã Võ Lao','volao']].map(function(x){return{name:x[0],url:'https://laocai-cds.github.io/'+x[1]+'/'}});
 var list=FALLBACK.slice();
 function fold(t){return String(t).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/gi,"d")}
-function clean(l){return(Array.isArray(l)?l:[]).map(function(u){return{name:String(u&&u.name||'').trim(),url:String(u&&u.url||'').trim()}}).filter(function(u){return u.name&&/^https?:\/\//i.test(u.url)&&!/(xuanquang|phuc\s*khanh)/i.test(fold(u.url+' '+u.name))})}
+function clean(l){return(Array.isArray(l)?l:[]).map(function(u){return{name:String(u&&u.name||'').trim(),url:String(u&&u.url||'').trim()}}).filter(function(u){return u.name&&/^https?:\/\//i.test(u.url)&&!/xuan\s*quang/i.test(fold(u.url+' '+u.name))})}
 try{var c=JSON.parse(localStorage.getItem(LS)||'null');if(Array.isArray(c)&&c.length)list=clean(c)}catch(_){}
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 var AI_CARD='<a class="lnk-card" href="https://laocai-cds.github.io/tthc/?ai=1" target="_blank" rel="noopener noreferrer"><i>🤖</i><span><b>Trợ lý AI TTHC</b><small>Hỏi đáp, tra cứu số liệu thủ tục hành chính (site DVC Lào Cai)</small></span></a>';
