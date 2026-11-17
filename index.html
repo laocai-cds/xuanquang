@@ -3337,19 +3337,24 @@ html body .heroline>.hl-rank .kp-more:hover svg{transform:translateX(3px)}
 </style>
 <script>(()=>{const M=document.getElementById('rankModal');if(!M)return;
 const C={complete:['#1fa86b','#dff5ea'],partial:['#d99a0b','#fdf1d0'],empty:['#e0383f','#fbe0e1']};const T=[['#1fa86b','#dff5ea'],['#2f6fd0','#e4effc'],['#d99a0b','#fdf1d0'],['#f07b2a','#fde6d4'],['#e0383f','#fbe0e1']];const tr=p=>p>=1?T[0]:p>=.8?T[1]:p>=.5?T[2]:p>0?T[3]:T[4];
+const openRk=new Set();
+function rkTg(r){const n=kidsOf(r).length;if(!n)return '';return ` <button type="button" class="rk-tg" data-kid="${esc(kfold(nm(r)))}" aria-expanded="false">▸ ${n} chi bộ</button>`}
+function rkKids(r){return kidsOf(r).map(k=>{const c=cls(k),p=Math.max(0,Math.min(1,v(k,'progress'))),tc=tr(p);
+  return `<div class="rkm-row kid" hidden data-kp="${esc(kfold(nm(r)))}" data-c="${c==='complete'||c==='partial'?c:'empty'}" style="--tc:${tc[0]};--tb:${tc[1]}"><span class="rk" style="visibility:hidden">·</span><div class="rkm-nm"><span class="uname">└ ${esc(kidName(nm(k)))}</span><small>${esc(status(k)[0])} · ${money(v(k,'paid'))}</small></div><div class="rkm-bar" style="--c:${tc[0]}"><i><b style="width:${(p*100).toFixed(1)}%"></b></i><em>${pct(p)}</em></div><div class="rkm-ct"><b>${num(v(k,'paidCount'))}</b>/${num(v(k,'due'))}<br>đảng viên</div></div>`}).join('')}
 function open(){const L=units.filter(r=>v(r,'members')>0).sort((a,b)=>(rankOf.get(a)||999)-(rankOf.get(b)||999));
  const n={complete:0,partial:0,empty:0};L.forEach(r=>{const c=cls(r);n[c in n?c:'empty']++});
  document.getElementById('rankSum').innerHTML=[['complete','Hoàn thành'],['partial','Đang thu'],['empty','Chưa phát sinh']].map(([k,l])=>`<span data-g="${k}" role="button" tabindex="0" aria-pressed="false" title="Bấm để xem các đơn vị: ${l}" style="--c:${C[k][0]};--c-bg:${C[k][1]}">${l} <b>${n[k]}</b></span>`).join('');
  document.getElementById('rankList').innerHTML=L.map(r=>{const c=cls(r),p=Math.max(0,Math.min(1,v(r,'progress'))),tc=tr(p),col=tc[0],n3=rankOf.get(r)<=3;
-  return `<div class="rkm-row" data-c="${c==='complete'||c==='partial'?c:'empty'}" style="--tc:${tc[0]};--tb:${tc[1]}">${rk(r)}<div class="rkm-nm"><span class="uname">${esc(nm(r))}</span><small>${esc(status(r)[0])} · ${money(v(r,'paid'))}</small></div><div class="rkm-bar" style="--c:${col}"><i><b style="width:${(p*100).toFixed(1)}%"></b></i><em>${pct(p)}</em></div><div class="rkm-ct"><b>${num(v(r,'paidCount'))}</b>/${num(v(r,'due'))}<br>đảng viên</div></div>`}).join('')||'<p class="empty">Chưa có số liệu đơn vị.</p>';
- const q=document.getElementById('rankQ');q.value='';grp='';filt();
+  return `<div class="rkm-row" data-c="${c==='complete'||c==='partial'?c:'empty'}" style="--tc:${tc[0]};--tb:${tc[1]}">${rk(r)}<div class="rkm-nm"><span class="uname">${esc(nm(r))}</span>${rkTg(r)}<small>${esc(status(r)[0])} · ${money(v(r,'paid'))}</small></div><div class="rkm-bar" style="--c:${col}"><i><b style="width:${(p*100).toFixed(1)}%"></b></i><em>${pct(p)}</em></div><div class="rkm-ct"><b>${num(v(r,'paidCount'))}</b>/${num(v(r,'due'))}<br>đảng viên</div></div>`+rkKids(r)}).join('')||'<p class="empty">Chưa có số liệu đơn vị.</p>';
+ openRk.clear();const q=document.getElementById('rankQ');q.value='';grp='';filt();
  M.classList.add('on');document.body.style.overflow='hidden';setTimeout(()=>q.focus(),30)}
 function fold(x){return String(x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d')}
 let grp='';
-function filt(){const k=fold(document.getElementById('rankQ').value.trim());let n=0;const rows=document.querySelectorAll('#rankList .rkm-row');rows.forEach(r=>{const ok=(!k||fold(r.querySelector('.uname').textContent).includes(k))&&(!grp||r.dataset.c===grp);r.hidden=!ok;if(ok)n++});
+function filt(){const k=fold(document.getElementById('rankQ').value.trim());let n=0;const rows=document.querySelectorAll('#rankList .rkm-row');rows.forEach(r=>{const ok=(!k||fold(r.querySelector('.uname').textContent).includes(k))&&(!grp||r.dataset.c===grp);const kid=r.classList.contains('kid'),sh=ok&&(!kid||openRk.has(r.dataset.kp)||!!k);r.hidden=!sh;if(sh)n++});document.querySelectorAll('#rankList .rk-tg').forEach(b=>{const o=openRk.has(b.dataset.kid);b.textContent=(o?'▾ ':'▸ ')+b.textContent.replace(/^[▸▾]\s*/,'');b.setAttribute('aria-expanded',o)});
  const sm=document.getElementById('rankSum');sm.classList.toggle('has-g',!!grp);sm.querySelectorAll('[data-g]').forEach(x=>{const on=x.dataset.g===grp;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on)});
  document.getElementById('rankCnt').textContent=(k||grp)?n+'/'+rows.length:'';document.getElementById('rankClr').hidden=!document.getElementById('rankQ').value;let e=document.getElementById('rankNone');if(!e){e=document.createElement('p');e.id='rankNone';e.className='rkm-none';e.textContent='Không tìm thấy đơn vị phù hợp.';document.getElementById('rankList').after(e)}e.hidden=!((k||grp)&&!n)}
 document.getElementById('rankQ').addEventListener('input',filt);
+document.getElementById('rankList').addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.rk-tg');if(!b)return;e.stopPropagation();const k=b.dataset.kid;if(openRk.has(k))openRk.delete(k);else openRk.add(k);filt()});
 const sumEl=document.getElementById('rankSum');
 const pick=t=>{const g=t.closest&&t.closest('[data-g]');if(!g)return;grp=grp===g.dataset.g?'':g.dataset.g;filt();const l=document.getElementById('rankList');if(l)l.scrollTop=0};
 sumEl.addEventListener('click',e=>pick(e.target));
@@ -3999,7 +4004,7 @@ html body .bar .tab,html body .bar .brand small,html body .hero .wrap>div:first-
 html body .brand b,html body .hero .wrap>div:first-child .lede-name,html body .hero .wrap>div:first-child strong,html body .hero .wrap>div:first-child p>b{text-shadow:none!important}
 html body .hero .wrap>div:first-child .eyebrow,html body .hero .wrap>div:first-child small{color:#fff3c4!important}
 </style>
-<style id="kidCss">html body .kid-tg{margin-left:8px;padding:2px 9px;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--son,#078a2c);font:600 .72rem/1.4 inherit;cursor:pointer;white-space:nowrap}html body .kid-tg:hover{background:rgba(7,138,44,.1)}html body tr.kid td{background:rgba(7,138,44,.05)}html body tr.kid .kidn{padding-left:34px;font-weight:500;opacity:.9}</style>
+<style id="kidCss">html body .kid-tg{margin-left:8px;padding:2px 9px;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--son,#078a2c);font:600 .72rem/1.4 inherit;cursor:pointer;white-space:nowrap}html body .kid-tg:hover{background:rgba(7,138,44,.1)}html body tr.kid td{background:rgba(7,138,44,.05)}html body tr.kid .kidn{padding-left:34px;font-weight:500;opacity:.9}html body .rk-tg{margin-left:8px;padding:1px 8px;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--son,#078a2c);font:600 .7rem/1.4 inherit;cursor:pointer;white-space:nowrap}html body .rkm-row.kid{padding-left:34px;background:rgba(7,138,44,.05)}</style>
 <script>(function(){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.kid-tg');if(!b)return;e.stopPropagation();e.preventDefault();var k=b.getAttribute('data-kid');if(openKids.has(k))openKids.delete(k);else openKids.add(k);fillTables()},true)})()</script>
 </body>
 </html>
