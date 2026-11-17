@@ -3912,12 +3912,15 @@ html body .scenic{container-type:inline-size}
 .qs-i:hover,.qs-i:focus-visible{transform:translateX(-50%) translateY(-.5cqw);background:rgba(255,255,255,.92);box-shadow:0 .8cqw 1.8cqw rgba(160,8,14,.25),0 0 0 1.5px rgba(230,180,34,.9);color:#a30009;outline:none}
 .qs-i:hover .qs-ic,.qs-i:focus-visible .qs-ic{transform:scale(1.18) rotate(-6deg);background:linear-gradient(145deg,#d4141c,#a30009);color:#fff;box-shadow:0 0 0 2px #e6b422,0 .5cqw 1.2cqw rgba(160,8,14,.4)}
 .qs-i:active{transform:translateX(-50%) translateY(-.2cqw) scale(.97)}
-.qs-i .qs-ic{animation:qsPulse 4s calc(var(--d) + 1s) ease-in-out infinite}
+.qs-i .qs-ic{animation:qsBeat 1.8s calc(var(--d) - .5s) ease-in-out infinite}
+.qs-i .qs-tx{display:block;animation:qsBeatT 1.8s calc(var(--d) - .5s) ease-in-out infinite}
+.qs-i:hover .qs-ic,.qs-i:hover .qs-tx,.qs-i:focus-visible .qs-ic,.qs-i:focus-visible .qs-tx{animation:none}
 @keyframes qsRise{from{opacity:0;transform:translateY(.8cqw) scale(.97)}to{opacity:1;transform:none}}
 @keyframes qsUp{from{opacity:0;transform:translateX(-50%) translateY(1.2cqw)}to{opacity:1;transform:translateX(-50%)}}
 @keyframes qsLine{from{opacity:0;width:0}to{opacity:1;width:62%}}
 @keyframes qsShine{from{background-position:220% 0}to{background-position:-20% 0}}
-@keyframes qsPulse{0%,86%,100%{transform:scale(1)}92%{transform:scale(1.14)}}
+@keyframes qsBeat{0%,100%{transform:scale(.9)}50%{transform:scale(1.18)}}
+@keyframes qsBeatT{0%,100%{transform:scale(.97)}50%{transform:scale(1.07)}}
 @media(max-width:760px){.qs-i{pointer-events:none}}
 </style>
 <style id="headPlainCss">/* Tiêu đề mục: bỏ nền đỏ, chữ đỏ, icon + mũi tên đỏ */
