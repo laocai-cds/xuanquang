@@ -1617,18 +1617,25 @@ async function provLoad(){
     PROV.rank=i+1;PROV.total=rows.length;PROV.st='ok'
   }catch(e){if(PROV.st!=='ok')PROV.st='err'}
   PROV.busy=0;provShow()}
+/* so sánh số thu với tháng trước (T-1 của tháng đang xem) */
+function prevCmp(cur){const vk=viewKey||curKey(),y=+vk.slice(0,4),m=+vk.slice(5),pd=new Date(y,m-2,1),pk=pd.getFullYear()+'-'+String(pd.getMonth()+1).padStart(2,'0');
+  const p=monthly[pk];
+  if(!p||!(p.cum>0)){if(!window.__pcTry)window.__pcTry={};if(!window.__pcTry[pk]){window.__pcTry[pk]=1;loadMonthTab(pk).then(ok=>{if(ok)try{render()}catch(_){}})}return null}
+  const d=(cur-p.cum)/p.cum*100,up=d>=0;
+  return{pm:pd.getMonth()+1,pv:p.cum,d,up,txt:(up?'▲ +':'▼ ')+Math.abs(d).toFixed(1).replace('.',',')+'%'}}
 function render(){
   const t=totals(),rate=t.due?t.paidCount/t.due:0;
+  const pc=prevCmp(t.paid);
   const active=units.filter(r=>v(r,'members')>0),done=units.filter(r=>cls(r)==='complete').length;
 
-  $('#heroline').innerHTML=`<div><b>${money(t.paid)}</b><small>Đã thu</small></div><div><b>${t.paidCount}/${t.due}</b><small>Đảng viên đã nộp</small></div><div class="hl-rank"><b>${done}/${units.length}</b><small>Đơn vị hoàn thành</small><button type="button" class="kp-more" data-rank-open title="Xem bảng xếp hạng đơn vị">Xếp hạng<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button></div><div><b>${dataSrc==='loading'?'…':(dataStamp||'—')}</b><small>${dataSrc==='sheet'?'Google Sheet cập nhật':'Dữ liệu cập nhật'}</small></div>`;
+  $('#heroline').innerHTML=`<div><b>${money(t.paid)}</b><small>Đã thu${pc?` · <span class="vsp ${pc.up?'up':'dn'}" title="Tháng ${pc.pm} thu ${money(pc.pv)}">${pc.txt} so với T${pc.pm}</span>`:''}</small></div><div><b>${t.paidCount}/${t.due}</b><small>Đảng viên đã nộp</small></div><div class="hl-rank"><b>${done}/${units.length}</b><small>Đơn vị hoàn thành</small><button type="button" class="kp-more" data-rank-open title="Xem bảng xếp hạng đơn vị">Xếp hạng<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button></div><div><b>${dataSrc==='loading'?'…':(dataStamp||'—')}</b><small>${dataSrc==='sheet'?'Google Sheet cập nhật':'Dữ liệu cập nhật'}</small></div>`;
   {const hd=$('#heroDate');if(hd){const d=new Date();hd.textContent='Ngày '+d.getDate()+' tháng '+(d.getMonth()+1)+' năm '+d.getFullYear()}}
   renderDonut(t,rate,active);renderMonthly();renderBanner();
 
   $('#stats').innerHTML=[
     ['Tổng số đảng viên',`<strong data-c="${t.members}" data-f="num">0</strong>`,`Tại ${units.length} đơn vị · ${num(t.exempt)} miễn giảm`],
     ['Tổng tiền đã kê khai',`<strong data-c="${t.declared}" data-f="money">0</strong>`,'Theo hồ sơ đã khai báo'],
-    ['Đã thu trong kỳ',`<strong data-c="${t.paid}" data-f="money">0</strong>`,`<b>${pct(rate)}</b> đảng viên đã nộp (${t.paidCount}/${t.due})`],
+    ['Đã thu trong kỳ',`<strong data-c="${t.paid}" data-f="money">0</strong>`,`<b>${pct(rate)}</b> đảng viên đã nộp (${t.paidCount}/${t.due})${pc?`<br><span class="vsp ${pc.up?'up':'dn'}">${pc.txt} so với T${pc.pm} (${money(pc.pv)})</span>`:''}`],
     ['Hồ sơ cần xử lý',`<strong data-c="${t.pending+t.noRecord+t.approved}" data-f="num">0</strong>`,`${num(t.pending)} chưa duyệt · ${num(t.noRecord)} chưa có hồ sơ`]
   ].map(([a,b,c],i)=>`<div class="stat k${i+1}"><i class="ico" aria-hidden="true">${['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.2A4.6 4.6 0 0 1 21 18.5"/></svg>','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 15h3"/></svg>','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.6 2.6L16 9.6"/></svg>','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l1 2h3v14H5V6h3z"/><path d="M9 11h6M9 15h4"/></svg>'][i]}</i><span>${a}</span>${b}<small>${c}</small></div>`).join('');
 
@@ -4129,5 +4136,6 @@ html body .scenic::before{content:"";position:absolute;z-index:2;pointer-events:
  filter:drop-shadow(0 0 3px rgba(255,170,0,.95)) drop-shadow(0 0 7px rgba(255,200,60,.7));animation:sloganShine 4.6s linear infinite}
 @keyframes sloganShine{0%{background-position:100% 0,0 0}100%{background-position:0 0,0 0}}
 </style>
+<style id="vsPrev">html body .vsp{font-weight:800;white-space:nowrap}html body .vsp.up{color:#16a34a}html body .vsp.dn{color:#e11d48}html body #heroline .vsp.up{color:#86efac}html body #heroline .vsp.dn{color:#fda4af}</style>
 </body>
 </html>
