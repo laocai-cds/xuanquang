@@ -4168,5 +4168,21 @@ text-shadow:none!important;font-weight:800!important;letter-spacing:.4px;font-si
 @media(min-width:1024px){html body .bar{width:calc(var(--side) - 4px)!important}}
 </style>
 <style id="sealFlag">html body .seal img{padding:2px;box-sizing:border-box;object-fit:contain}</style>
+<style id="podiumVivid">
+/* Top 3: màu tươi sáng hơn (vàng - xanh da trời - cam) */
+html body .podium .step.s1{--c:#f5a300;--cd:#8a5a00;--cl:#fff4d1;--cb:#ffd76a}
+html body .podium .step.s2{--c:#2f8ee5;--cd:#17508f;--cl:#e6f2ff;--cb:#a9d1f8}
+html body .podium .step.s3{--c:#ff7a3d;--cd:#a83f10;--cl:#ffeadf;--cb:#ffc2a3}
+html body .podium .step.s1,html body .podium .step.s2,html body .podium .step.s3{background:linear-gradient(135deg,var(--cl),#fff 62%)!important;border:1.5px solid var(--cb)!important;box-shadow:0 6px 16px -8px var(--c)!important}
+html body .podium .step::before{width:7px!important}
+html body .podium .step:hover{box-shadow:0 16px 28px -14px var(--c)!important;border-color:var(--c)!important}
+html body .podium .step .rg{background:conic-gradient(var(--c) calc(var(--p)*1%),var(--cl) 0)!important;box-shadow:0 0 0 3px #fff,0 4px 12px -4px var(--c)}
+html body .podium .step .rg i{color:var(--cd)!important}
+html body .podium .step .nm em{color:var(--cd)!important}
+html body .podium .step .nm b{color:#1b2a3a!important}
+html body .podium .step .meta span{background:#fff!important;border:1px solid var(--cb)!important;color:var(--cd)!important}
+html body .podium .step .meta b{color:var(--cd)!important}
+html body .podium .step .go{color:var(--cd)!important}
+</style>
 </body>
 </html>
