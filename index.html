@@ -1426,7 +1426,7 @@ window.AUTH=(function(){
 <script>
 const MAX_UNITS=120;/* tối đa 120 đơn vị mỗi tháng */
 const INITIAL_UNITS=[];// Danh sách đơn vị trực thuộc Đảng bộ xã Xuân Quang được đọc từ Google Sheet (chưa có số liệu dự phòng)
-const KEYS={stt:'STT',name:'Tên đơn vị',members:'Tổng sl đảng viên (1)',pending:'Chưa duyệt (6)',paidCount:'Đã duyệt, đã nộp (8)',unfiled:'Số đảng viên chưa có hồ sơ (9)',declared:'Tổng tiền theo hồ sơ đã khai báo',paid:'Tổng tiền đã nộp',progress:'Tỷ lệ hoàn thành\n đảng phí thực tế',exempt:'Số lượng được miễn giảm ĐP (5)',moved:'Số lượng ĐV đã chuyển sinh hoạt đảng tạm thời (4)',approved:'Đã duyệt, chưa nộp (7)'};
+const KEYS={stt:'STT',name:'Tên đơn vị',members:'Tổng sl đảng viên (1)',pending:'Chưa duyệt (6)',paidCount:'Đã duyệt, đã nộp (8)',unfiled:'Số đảng viên chưa có hồ sơ (9)',declared:'Tổng tiền theo hồ sơ đã khai báo',paid:'Tổng tiền đã nộp',progress:'Tỷ lệ hoàn thành\n đảng phí thực tế',exempt:'Số lượng được miễn giảm ĐP (5)',moved:'Số lượng ĐV đã chuyển sinh hoạt đảng tạm thời (4)',approved:'Đã duyệt, chưa nộp (7)',official:'Số lượng ĐV sinh hoạt chính thức (2)',temp:'Số lượng ĐV sinh hoạt tạm thời (3)'};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const REDUCED=/[?&]calm=1/.test(location.search);// thêm ?calm=1 vào địa chỉ nếu muốn tắt chuyển động
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1442,7 +1442,7 @@ const pnum=x=>{if(typeof x==='number')return isFinite(x)?x:0;const t=String(x==n
   if(/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(t))return Number(t.replace(/\./g,'').replace(',','.'))||0;
   if(/^-?\d+,\d+$/.test(t))return Number(t.replace(',','.'))||0;return Number(t)||0};
 const v=(r,k)=>{
-  if(k==='due')return Math.max(0,v(r,'members')-v(r,'exempt')-v(r,'moved'));
+  if(k==='due'){const ct=pnum(r[KEYS.official])+pnum(r[KEYS.temp]),m=v(r,'members'),base=(ct>0&&ct<m)?ct:m;return Math.max(0,base-v(r,'exempt')-v(r,'moved'))}
   if(k==='noRecord')return Math.max(0,v(r,'unfiled')-v(r,'exempt'));
   if(k==='progress'){const d=v(r,'due');return d>0?Math.min(1,v(r,'paidCount')/d):0}
   return pnum(r[KEYS[k]]);
@@ -1750,7 +1750,7 @@ function render(){
    const mx=Math.max(...losses.map(l=>l[1]));
    let h='';steps.forEach(([l,n,c],i)=>{h+=`<div class="fn-row ${c}"><span class="fn-lab">${l}</span><div class="fn-bar"><i data-w="${(P(n)*100).toFixed(1)}%"></i></div><span class="fn-val"><b>${num(n)}</b><small>${pct(P(n))}</small></span></div>`;
      if(i<3){const [ll,ln]=losses[i];h+=`<div class="fn-loss${ln>0&&ln===mx?' big':''}">↓ <b>${num(ln)}</b> đảng viên ${ll}${ln>0&&ln===mx?' · khâu tắc nhiều nhất':''}</div>`}});
-   h+=`<p class="fn-note">Phải nộp = tổng đảng viên − miễn giảm − chuyển sinh hoạt tạm thời (${num(t.exempt)} miễn giảm).</p>`;
+   h+=`<p class="fn-note">Phải nộp = đảng viên sinh hoạt chính thức + tạm thời − miễn giảm − chuyển sinh hoạt tạm thời (${num(t.exempt)} miễn giảm).</p>`;
    $('#funnel').innerHTML=h;}
   // tỷ lệ thu theo tiền
   {const r=t.declared>0?t.paid/t.declared:0,left=Math.max(0,t.declared-t.paid),avg=t.paidCount>0?t.paid/t.paidCount:0;
